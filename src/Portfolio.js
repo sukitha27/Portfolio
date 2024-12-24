@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Menu, X, ArrowDown, Moon, Sun } from 'lucide-react';
 import { FaLaptopCode, FaBuilding } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import Typewriter from 'typewriter-effect';
+import AnimatedPieChart from './AnimatedPieChart';
 import './styles.css'; // Path to the CSS file
+
+
+
 
 
 const Portfolio = () => {
@@ -34,9 +39,29 @@ const Portfolio = () => {
 
   const portfolioData = {
     name: "Sukitha Bandara",
-    title: "Creative Full Stack Developer",
+    title: (
+      <h1>
+        <Typewriter
+          onInit={(typewriter) => {
+            typewriter
+              .typeString('Creative Full Stack Developer')
+              .pauseFor(1000)
+              .deleteAll()
+              .pauseFor(500)
+              .start()
+              
+          }}
+          options={{
+            loop: true, // Loop the effect continuously
+            delay: 75,  // Adjust typing speed (optional)
+          }}
+        />
+      </h1>
+    ),
     about: "I create stunning web applications with modern technologies. Passionate about design, user experience, and scalable architecture.",
+
     skills: ["React", "Node.js", "Python", "AWS", "GraphQL", "Docker"],
+
     projects: [
       { title: "E-Commerce Platform", description: "Built a full-stack platform with payment integration.", tags: ["React", "Node.js"], link: "#" },
       { title: "Social Media App", description: "Developed a real-time social media app with chat.", tags: ["React", "Firebase"], link: "#" },
@@ -164,6 +189,8 @@ const Portfolio = () => {
       className="w-32 sm:w-48 lg:w-64 rounded-full border-4 border-white shadow-lg transform transition-transform duration-500 hover:scale-105"
     />
   </div>
+
+
   <h1 className="text-6xl font-extrabold animate-fade-in">{portfolioData.name}</h1>
   <p className="text-xl mt-4 animate-slide-up">{portfolioData.title}</p>
   <div className="mt-8 flex space-x-4">
@@ -210,19 +237,31 @@ const Portfolio = () => {
 </section>
 
 
-      <section id="about" className="py-20 bg-white px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-8 text-gray-800 animate-slide-in">{portfolioData.about}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {portfolioData.skills.map((skill, idx) => (
-              <div key={idx} className="p-3 bg-blue-100 rounded-lg shadow-md text-center hover:scale-105 transition-transform duration-300">
-                {skill}
-              </div>
-            ))}
-          </div>
+{/* About Section */}
+<section id="about" className="py-20 bg-white px-4">
+  <div className="max-w-6xl mx-auto text-center">
+    <h2 className="text-4xl font-bold mb-8 text-gray-800 animate-slide-in">{portfolioData.about}</h2>
+    
+    {/* Skills with Pie Charts */}
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-12">
+      {portfolioData.skills.map((skill, idx) => (
+        <div key={idx} className="flex flex-col items-center">
+          <AnimatedPieChart 
+            percentage={85 - (idx * 5)} 
+            size={idx === 0 ? "large" : "medium"} 
+          />
+          <p className="mt-4 font-semibold text-gray-700">{skill}</p>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
+
+            
+      
+
+  
       <section id="projects" className="py-20 text-white relative overflow-hidden">
   {/* Background Video */}
   <video 
@@ -277,7 +316,6 @@ const Portfolio = () => {
     </div>
   </div>
 </section>
-
 
 
 <section id="experience" className="py-20 bg-gray-50 dark:bg-gray-900 text-center relative overflow-hidden">
